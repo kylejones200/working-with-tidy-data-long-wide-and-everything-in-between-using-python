@@ -61,7 +61,7 @@ def reshape_weekly_data(df: pd.DataFrame) -> pd.DataFrame:
     return long
 
 def plot_weekly_trend(df: pd.DataFrame, output_path: Path):
- """Plot weekly sales trend """
+    """Plot weekly sales trend """
     fig, ax = plt.subplots(figsize=(10, 6))
     
     weekly = df.groupby('Week')['Sales'].sum().reset_index()
@@ -73,7 +73,7 @@ def plot_weekly_trend(df: pd.DataFrame, output_path: Path):
     plt.close()
 
 def plot_store_comparison(df: pd.DataFrame, output_path: Path):
- """Plot store-wise comparison """
+    """Plot store-wise comparison """
     fig, ax = plt.subplots(figsize=(10, 6))
     
     pivot = df.pivot(index='Week', columns='Store', values='Sales').reset_index()
