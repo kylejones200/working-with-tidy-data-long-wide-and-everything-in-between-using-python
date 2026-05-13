@@ -9,7 +9,7 @@ canonical_link: "https://medium.com/@kyle-t-jones/working-with-tidy-data-long-wi
 
 will not start out in a useful form. It will be messy. You'll find headers embedded in rows, multiple...
 
-### **Working with Tidy Data: Long, Wide, and Everything in Between using Python**
+### Working with Tidy Data: Long, Wide, and Everything in Between using Python
 Most data you work with in Python will not start out in a useful form. It will be messy. You'll find headers embedded in rows, multiple variables mashed into one column, or entire datasets that try to represent multiple time periods across many columns. When this happens, the first step is to make the data tidy.
 
 Tidy data follows three rules. Each column is a variable. Each row is an observation. Each table is a single kind of observational unit.
@@ -31,21 +31,21 @@ In the sections that follow, we'll move back and forth between wide and long for
 ### Long vs. Wide Formats
 To get the most out of tidy data, you need to recognize when you're working with a long or wide format and understand when each one is appropriate.
 
-**Wide Format**
+Wide Format
 
 In a wide format, different variables are spread across multiple columns. This is common in spreadsheets and reports, especially when time is represented across the top row. Take this dataset:
 
 
 Each quarter is a separate column. It's easy to read for a human, but hard to work with programmatically. For example, calculating the average sales across quarters would require explicitly listing each column name. It also breaks the tidy data rule: the time dimension is spread across column names instead of values.
 
-**Long Format**
+Long Format
 
 In a long format, all values of the same variable are in one column, and each row is a unique observation.
 
 
 This format is ideal for most statistical analysis and plotting tools. You can group by quarter, compare products, or feed this directly into a line chart with no additional transformation.
 
-**When to Use Each Format**
+When to Use Each Format
 
 Wide format works best when you need to show a snapshot --- when clarity to a human matters more than flexibility for a computer. Monthly reports, printed summaries, and dashboards often benefit from wide data.
 
@@ -107,9 +107,9 @@ pivot_df = long_df.pivot_table(
 This is a safer option in general, especially for real-world data that may contain noise, missing values, or unexpected duplicates.
 
 #### Pitfalls to Avoid
-1.  [**Duplicate keys**: If you pivot without handling duplicates, `pandas` will raise an error. Use `pivot_table()` when in doubt.]
-2.  [**Multi-indexes**: Pivoting creates multi-level column names. Flatten them if needed using: `df.columns = [str(col) for col in df.columns]`]
-3.  [**Missing values**: Pivoting can introduce `NaN`s. You can fill them later with `fillna()` or `dropna()` depending on your needs.]
+1.  [Duplicate keys: If you pivot without handling duplicates, `pandas` will raise an error. Use `pivot_table()` when in doubt.]
+2.  [Multi-indexes: Pivoting creates multi-level column names. Flatten them if needed using: `df.columns = [str(col) for col in df.columns]`]
+3.  [Missing values: Pivoting can introduce `NaN`s. You can fill them later with `fillna()` or `dropna()` depending on your needs.]
 
 Next, we'll walk through how to summarize and analyze this reshaped data using `groupby()`.
 
@@ -282,9 +282,9 @@ Once your data is tidy, it becomes dramatically easier to group, summarize, and 
 
 Here are a few rules of thumb to keep in mind:
 
-- Use **wide format** for reporting and dashboards where space is limited and the audience is human.
-- Use **long format** when you want to model, visualize, or join data with other tables.
-- Always **reset your index** after a groupby if you plan to use the results in other operations or plots.
+- Use wide format for reporting and dashboards where space is limited and the audience is human.
+- Use long format when you want to model, visualize, or join data with other tables.
+- Always reset your index after a groupby if you plan to use the results in other operations or plots.
 - Use `pivot_table()` instead of `pivot()` when there's any risk of duplicate combinations in your keys.
 
 Tidy data isn't just about making your job easier. It's about making your work reusable, scalable, and trustworthy. The time you spend reshaping and organizing your data pays off in every line of code that follows.
