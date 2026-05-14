@@ -7,7 +7,6 @@ import yaml
 import logging
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent))
 from core import (
     generate_wide_data, generate_weekly_sales_data,
     wide_to_long, long_to_wide, pivot_table_aggregation,
