@@ -1,5 +1,9 @@
 # Tidy Data: Long and Wide Format Transformations
 
+Published: yes
+Medium: [https://medium.com/@kyle-t-jones/working-with-tidy-data-long-wide-and-everything-in-between-using-python-4b217d9e2f04](https://medium.com/@kyle-t-jones/working-with-tidy-data-long-wide-and-everything-in-between-using-python-4b217d9e2f04)
+
+
 This project demonstrates data reshaping operations including wide-to-long, long-to-wide, pivot tables, and groupby aggregations.
 
 ## Project Structure
