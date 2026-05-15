@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Tidy data reshaping — Polars + DuckDB rewrite (UNPIVOT / PIVOT / GROUP BY)."""
 
-import sys
 import argparse
 import yaml
 import logging

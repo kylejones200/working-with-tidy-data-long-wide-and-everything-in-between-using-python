@@ -10,32 +10,31 @@ import duckdb
 import polars as pl
 import matplotlib.pyplot as plt
 from pathlib import Path
-from typing import Dict, List
 
 
 # ── data generation ──────────────────────────────────────────────────────────
 
 def generate_wide_data(
-    stores: List[str] = None,
-    months: List[str] = None,
+    stores: list[str] = None,
+    months: list[str] = None,
 ) -> pl.DataFrame:
     if stores is None:
         stores = ["A", "B"]
     if months is None:
         months = ["Jan_Sales", "Feb_Sales", "Mar_Sales"]
-    data: Dict = {"Store": stores}
+    data: dict = {"Store": stores}
     for i, m in enumerate(months):
         data[m] = [100 + i * 10, 90 + i * 10]
     return pl.DataFrame(data)
 
 
 def generate_weekly_sales_data(
-    stores: List[str] = None,
+    stores: list[str] = None,
     weeks: int = 3,
 ) -> pl.DataFrame:
     if stores is None:
         stores = ["North", "South", "East", "West"]
-    data: Dict = {"Store": stores}
+    data: dict = {"Store": stores}
     for w in range(1, weeks + 1):
         data[f"Week_{w}"] = [300 + w * 10, 250 + w * 5, 400 - w * 5, 375 + w * 3]
     return pl.DataFrame(data)
@@ -46,7 +45,7 @@ def generate_weekly_sales_data(
 def wide_to_long(
     df: pl.DataFrame,
     id_col: str,
-    month_cols: List[str],
+    month_cols: list[str],
     var_name: str = "Month",
     value_name: str = "Sales",
     strip_suffix: str = "_Sales",
@@ -105,9 +104,9 @@ def pivot_table_aggregation(
 
 def groupby_aggregation(
     df: pl.DataFrame,
-    groupby_cols: List[str],
+    groupby_cols: list[str],
     value_col: str,
-    aggfuncs: Dict[str, str],
+    aggfuncs: dict[str, str],
 ) -> pl.DataFrame:
     """groupby().agg() → DuckDB GROUP BY with multiple aggregate functions."""
     sql_map = {"sum": "SUM", "mean": "AVG", "min": "MIN", "max": "MAX", "count": "COUNT"}
@@ -121,7 +120,7 @@ def groupby_aggregation(
     ).pl()
 
 
-def reshape_weekly_data(df: pl.DataFrame, week_cols: List[str]) -> pl.DataFrame:
+def reshape_weekly_data(df: pl.DataFrame, week_cols: list[str]) -> pl.DataFrame:
     """Wide weekly → long via DuckDB UNPIVOT; Week column cast to int."""
     on_clause = ", ".join(f'"{c}"' for c in week_cols)
     return duckdb.sql(f"""

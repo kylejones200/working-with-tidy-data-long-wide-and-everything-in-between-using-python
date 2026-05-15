@@ -2,7 +2,6 @@
 
 import pandas as pd
 from pathlib import Path
-from typing import Dict, Optional
 import matplotlib.pyplot as plt
 import logging
 
@@ -40,7 +39,7 @@ def pivot_table_aggregation(df: pd.DataFrame, index: str, columns: str,
                          aggfunc=aggfunc).reset_index()
 
 def groupby_aggregation(df: pd.DataFrame, groupby_cols: list, value_col: str,
-                        aggfuncs: Dict[str, str]) -> pd.DataFrame:
+                        aggfuncs: dict[str, str]) -> pd.DataFrame:
     """Perform groupby aggregation with multiple functions."""
     return df.groupby(groupby_cols)[value_col].agg(aggfuncs).reset_index()
 
