@@ -61,18 +61,16 @@ In real analysis, you'll often get data in the wrong shape. Whether it comes fro
 
 ```python
 import pandas as pd
-```
 
-``` 
+
 df = pd.DataFrame({
     'Store': ['A', 'B'],
     'Jan_Sales': [100, 90],
     'Feb_Sales': [120, 100],
     'Mar_Sales': [130, 110]
 })
-```
 
-``` 
+
 long_df = pd.melt(df, id_vars='Store', var_name='Month', value_name='Sales')
 ```
 
@@ -233,9 +231,8 @@ You can plot this with Matplotlib:
 
 ```python
 import matplotlib.pyplot as plt
-```
 
-``` 
+
 plt.plot(weekly['Week'], weekly['Sales'], marker='o')
 plt.xlabel('Week')
 plt.ylabel('Total Sales')
@@ -258,9 +255,8 @@ You can now plot lines for each store:
 ``` 
 for store in pivot.columns[1:]:
     plt.plot(pivot['Week'], pivot[store], label=store)
-```
 
-``` 
+
 plt.xlabel('Week')
 plt.ylabel('Sales')
 plt.title('Store-wise Weekly Sales')

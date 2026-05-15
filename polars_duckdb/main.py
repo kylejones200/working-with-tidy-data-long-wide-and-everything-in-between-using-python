@@ -2,18 +2,25 @@
 """Tidy data reshaping — Polars + DuckDB rewrite (UNPIVOT / PIVOT / GROUP BY)."""
 
 import argparse
-import yaml
 import logging
 from pathlib import Path
 
+import yaml
 from core import (
-    generate_wide_data, generate_weekly_sales_data,
-    wide_to_long, long_to_wide, pivot_table_aggregation,
-    groupby_aggregation, reshape_weekly_data,
-    plot_weekly_trend, plot_store_comparison,
+    generate_weekly_sales_data,
+    generate_wide_data,
+    groupby_aggregation,
+    long_to_wide,
+    pivot_table_aggregation,
+    plot_store_comparison,
+    plot_weekly_trend,
+    reshape_weekly_data,
+    wide_to_long,
 )
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 def load_config(config_path: Path = None) -> dict:
@@ -30,7 +37,11 @@ def main():
     args = parser.parse_args()
 
     config = load_config(args.config)
-    output_dir = Path(args.output_dir) if args.output_dir else Path(config["output"]["figures_dir"])
+    output_dir = (
+        Path(args.output_dir)
+        if args.output_dir
+        else Path(config["output"]["figures_dir"])
+    )
     output_dir.mkdir(exist_ok=True)
 
     stores = config["data"]["stores"]
@@ -60,7 +71,9 @@ def main():
         week_cols = [c for c in weekly_df.columns if c != "Store"]
         long_weekly = reshape_weekly_data(weekly_df, week_cols)
         agg_df = groupby_aggregation(
-            long_weekly, ["Store"], "Sales",
+            long_weekly,
+            ["Store"],
+            "Sales",
             {"total": "sum", "avg": "mean", "min": "min", "max": "max"},
         )
         logging.info(f"GROUP BY aggregation:\n{agg_df}")

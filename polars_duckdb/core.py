@@ -6,13 +6,14 @@ pd.pivot_table() → DuckDB PIVOT with aggregate function
 groupby().agg()  → DuckDB GROUP BY
 """
 
-import duckdb
-import polars as pl
-import matplotlib.pyplot as plt
 from pathlib import Path
 
+import duckdb
+import matplotlib.pyplot as plt
+import polars as pl
 
 # ── data generation ──────────────────────────────────────────────────────────
+
 
 def generate_wide_data(
     stores: list[str] = None,
@@ -41,6 +42,7 @@ def generate_weekly_sales_data(
 
 
 # ── reshape operations ────────────────────────────────────────────────────────
+
 
 def wide_to_long(
     df: pl.DataFrame,
@@ -90,8 +92,11 @@ def pivot_table_aggregation(
 ) -> pl.DataFrame:
     """pd.pivot_table() → DuckDB PIVOT with aggregate function."""
     sql_fn = {
-        "sum": "SUM", "mean": "AVG", "min": "MIN",
-        "max": "MAX", "count": "COUNT",
+        "sum": "SUM",
+        "mean": "AVG",
+        "min": "MIN",
+        "max": "MAX",
+        "count": "COUNT",
     }.get(aggfunc.lower(), "SUM")
 
     return duckdb.sql(f"""
@@ -109,14 +114,20 @@ def groupby_aggregation(
     aggfuncs: dict[str, str],
 ) -> pl.DataFrame:
     """groupby().agg() → DuckDB GROUP BY with multiple aggregate functions."""
-    sql_map = {"sum": "SUM", "mean": "AVG", "min": "MIN", "max": "MAX", "count": "COUNT"}
+    sql_map = {
+        "sum": "SUM",
+        "mean": "AVG",
+        "min": "MIN",
+        "max": "MAX",
+        "count": "COUNT",
+    }
     agg_exprs = ", ".join(
         f'{sql_map.get(fn.lower(), fn.upper())}("{value_col}") AS "{alias}"'
         for alias, fn in aggfuncs.items()
     )
     group_clause = ", ".join(f'"{c}"' for c in groupby_cols)
     return duckdb.sql(
-        f'SELECT {group_clause}, {agg_exprs} FROM df GROUP BY {group_clause}'
+        f"SELECT {group_clause}, {agg_exprs} FROM df GROUP BY {group_clause}"
     ).pl()
 
 
@@ -139,6 +150,7 @@ def reshape_weekly_data(df: pl.DataFrame, week_cols: list[str]) -> pl.DataFrame:
 
 # ── plots ─────────────────────────────────────────────────────────────────────
 
+
 def plot_weekly_trend(df: pl.DataFrame, output_path: Path, plot: bool = False):
     if not plot:
         return
@@ -146,8 +158,13 @@ def plot_weekly_trend(df: pl.DataFrame, output_path: Path, plot: bool = False):
         'SELECT "Week", SUM("Sales") AS total FROM df GROUP BY "Week" ORDER BY "Week"'
     ).pl()
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(weekly["Week"].to_list(), weekly["total"].to_list(),
-            marker="o", color="#4A90A4", linewidth=1.2)
+    ax.plot(
+        weekly["Week"].to_list(),
+        weekly["total"].to_list(),
+        marker="o",
+        color="#4A90A4",
+        linewidth=1.2,
+    )
     ax.set_xlabel("Week")
     ax.set_ylabel("Total Sales")
     ax.set_title("Weekly Sales Trend")
@@ -165,8 +182,14 @@ def plot_store_comparison(df: pl.DataFrame, output_path: Path, plot: bool = Fals
     weeks = pivot["Week"].to_list()
     fig, ax = plt.subplots(figsize=(10, 6))
     for i, store in enumerate(store_cols):
-        ax.plot(weeks, pivot[store].to_list(), label=store,
-                color=colors[i % len(colors)], linewidth=1.2, marker="o")
+        ax.plot(
+            weeks,
+            pivot[store].to_list(),
+            label=store,
+            color=colors[i % len(colors)],
+            linewidth=1.2,
+            marker="o",
+        )
     ax.set_xlabel("Week")
     ax.set_ylabel("Sales")
     ax.legend(loc="best")
