@@ -85,40 +85,44 @@ def reshape_weekly_data(df: pd.DataFrame) -> pd.DataFrame:
 
 def plot_weekly_trend(df: pd.DataFrame, output_path: Path, plot: bool = False):
     """Plot weekly sales trend"""
-    if plot:
-        fig, ax = plt.subplots(figsize=(10, 6))
+    if not plot:
+        return
 
-        weekly = df.groupby("Week")["Sales"].sum().reset_index()
-        ax.plot(
-            weekly["Week"], weekly["Sales"], marker="o", color="#4A90A4", linewidth=1.2
-        )
-        ax.set_xlabel("Week")
-        ax.set_ylabel("Total Sales")
+    fig, ax = plt.subplots(figsize=(10, 6))
 
-        plt.savefig(output_path, dpi=100, bbox_inches="tight")
-        plt.close()
+    weekly = df.groupby("Week")["Sales"].sum().reset_index()
+    ax.plot(
+        weekly["Week"], weekly["Sales"], marker="o", color="#4A90A4", linewidth=1.2
+    )
+    ax.set_xlabel("Week")
+    ax.set_ylabel("Total Sales")
+
+    plt.savefig(output_path, dpi=100, bbox_inches="tight")
+    plt.close()
 
 
 def plot_store_comparison(df: pd.DataFrame, output_path: Path, plot: bool = False):
     """Plot store-wise comparison"""
-    if plot:
-        fig, ax = plt.subplots(figsize=(10, 6))
+    if not plot:
+        return
 
-        pivot = df.pivot(index="Week", columns="Store", values="Sales").reset_index()
-        colors = ["#4A90A4", "#D4A574", "#8B6F9E", "#A8C5A0"]
-        for i, store in enumerate(pivot.columns[1:]):
-            ax.plot(
-                pivot["Week"],
-                pivot[store],
-                label=store,
-                color=colors[i % len(colors)],
-                linewidth=1.2,
-                marker="o",
-            )
+    fig, ax = plt.subplots(figsize=(10, 6))
 
-        ax.set_xlabel("Week")
-        ax.set_ylabel("Sales")
-        ax.legend(loc="best")
+    pivot = df.pivot(index="Week", columns="Store", values="Sales").reset_index()
+    colors = ["#4A90A4", "#D4A574", "#8B6F9E", "#A8C5A0"]
+    for i, store in enumerate(pivot.columns[1:]):
+        ax.plot(
+            pivot["Week"],
+            pivot[store],
+            label=store,
+            color=colors[i % len(colors)],
+            linewidth=1.2,
+            marker="o",
+        )
 
-        plt.savefig(output_path, dpi=100, bbox_inches="tight")
-        plt.close()
+    ax.set_xlabel("Week")
+    ax.set_ylabel("Sales")
+    ax.legend(loc="best")
+
+    plt.savefig(output_path, dpi=100, bbox_inches="tight")
+    plt.close()
