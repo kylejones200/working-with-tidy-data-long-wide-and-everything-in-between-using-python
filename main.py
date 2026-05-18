@@ -28,7 +28,7 @@ logging.basicConfig(
 )
 
 
-def load_config(config_path: Path = None) -> dict:
+def load_config(config_path: Path | None = None) -> dict:
     """Load configuration from YAML file."""
     if config_path is None:
         config_path = Path(__file__).parent / "config.yaml"
@@ -44,7 +44,6 @@ def main():
         "--output-dir", type=Path, default=None, help="Output directory for plots"
     )
     args = parser.parse_args()
-
     config = load_config(args.config)
     output_dir = (
         Path(args.output_dir)
@@ -52,7 +51,6 @@ def main():
         else Path(config["output"]["figures_dir"])
     )
     output_dir.mkdir(exist_ok=True)
-
     if config["transformations"]["wide_to_long"]:
         wide_df = generate_wide_data(config["data"]["stores"], config["data"]["months"])
         long_df = wide_to_long(wide_df, "Store", "Month", "Sales", "_Sales")
@@ -88,7 +86,6 @@ def main():
             config["data"]["weekly_stores"], config["data"]["weeks"]
         )
         long = reshape_weekly_data(raw)
-
         plot_weekly_trend(long, output_dir / "weekly_sales.png")
         plot_store_comparison(long, output_dir / "store_weekly_sales.png")
 

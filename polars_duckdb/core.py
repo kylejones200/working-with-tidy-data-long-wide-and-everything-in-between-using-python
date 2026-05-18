@@ -98,7 +98,6 @@ def pivot_table_aggregation(
         "max": "MAX",
         "count": "COUNT",
     }.get(aggfunc.lower(), "SUM")
-
     return duckdb.sql(f"""
         PIVOT df
         ON "{columns}"

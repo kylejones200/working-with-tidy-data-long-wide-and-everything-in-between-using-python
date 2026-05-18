@@ -23,7 +23,7 @@ logging.basicConfig(
 )
 
 
-def load_config(config_path: Path = None) -> dict:
+def load_config(config_path: Path | None = None) -> dict:
     if config_path is None:
         config_path = Path(__file__).parent.parent / "config.yaml"
     with open(config_path) as f:
@@ -35,7 +35,6 @@ def main():
     parser.add_argument("--config", type=Path, default=None)
     parser.add_argument("--output-dir", type=Path, default=None)
     args = parser.parse_args()
-
     config = load_config(args.config)
     output_dir = (
         Path(args.output_dir)
@@ -43,10 +42,8 @@ def main():
         else Path(config["output"]["figures_dir"])
     )
     output_dir.mkdir(exist_ok=True)
-
     stores = config["data"]["stores"]
     months = config["data"]["months"]
-
     # ── wide → long (UNPIVOT) ─────────────────────────────────────────────────
     if config["transformations"]["wide_to_long"]:
         wide_df = generate_wide_data(stores, months)
