@@ -6,6 +6,14 @@ Medium: [https://medium.com/@kyle-t-jones/working-with-tidy-data-long-wide-and-e
 
 This project demonstrates data reshaping operations including wide-to-long, long-to-wide, pivot tables, and groupby aggregations.
 
+## Business context
+
+Most data you work with in Python will not start out in a useful form. It will be messy. You'll find headers embedded in rows, multiple variables mashed into one column, or entire datasets that try to represent multiple time periods across many columns. When this happens, the first step is to make the data tidy.
+
+Tidy data follows three rules. Each column is a variable. Each row is an observation. Each table is a single kind of observational unit.
+
+This simple structure makes it easy to filter, summarize, model, and visualize your data. It plays nicely with libraries like `pandas`, `statsmodels`, `scikit-learn`, and `matplotlib`. You don't have to guess where your variables are. You don't have to rewrite your code every time you run a new analysis. Tidy data makes things fast and repeatable.
+
 ## Project Structure
 
 ```
